@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools >= 40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "linkrot"
+version = "0.1.0"
+description = "Basic link checker."
+keywords = ["link", "checker"]
+requires-python = ">=3.8"
+dependencies = [
+  # application dependencies are pinned
+  "beautifulsoup4==4.12.2",
+  "ezq==3.0.3",
+  "multiprocess==0.70.14",
+  "requests==2.30.0",
+]
+optional-dependencies = { dev = [
+  # dev dependencies are latest
+  "black",
+  "coverage",
+  "mypy",
+  "pdoc3",
+  "pytest",
+  "pytest-cov",
+  "ruff",
+] }
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Metaist LLC", email = "metaist@metaist.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+]
+
+[project.urls]
+Homepage = "https://github.com/metaist/linkrot"
+Documentation = "https://metaist.github.io/linkrot/"
+Repository = "https://github.com/metaist/linkrot.git"
+Changelog = "https://github.com/metaist/linkrot/blob/main/CHANGELOG.md"
