@@ -7,14 +7,17 @@ import re
 
 # lib
 from bs4 import BeautifulSoup
-from multiprocess import Manager
+from multiprocess import Manager  # type: ignore
 import ezq
 import requests
 
 BASE_URL = "http://localhost:8080"
 
 HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"
+    )
 }
 
 RE_CSS_IMPORT = re.compile(r"""@import ["']([^"']+)""", re.MULTILINE)

@@ -1,22 +1,23 @@
 [build-system]
-requires = ["setuptools >= 40.8.0", "wheel"]
 build-backend = "setuptools.build_meta"
+requires = ["setuptools>=40.8.0", "wheel"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [project]
-name = "linkrot"
-version = "0.1.0"
+authors = [{ name = "Metaist LLC", email = "metaist@metaist.com" }]
 description = "Basic link checker."
-keywords = ["link", "checker"]
-requires-python = ">=3.8"
+name = "freshlinks"
+version = "0.1.0"
+
 dependencies = [
   # application dependencies are pinned
   "beautifulsoup4==4.12.2",
   "ezq==3.0.3",
   "multiprocess==0.70.14",
   "requests==2.30.0",
+  "ujson>=5.7.0",
 ]
 optional-dependencies = { dev = [
   # dev dependencies are latest
@@ -29,26 +30,42 @@ optional-dependencies = { dev = [
   "ruff",
 ] }
 readme = "README.md"
-license = { text = "MIT" }
-authors = [{ name = "Metaist LLC", email = "metaist@metaist.com" }]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Environment :: Console",
-  "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
-  "Natural Language :: English",
-  "Operating System :: OS Independent",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-]
+requires-python = ">=3.8"
 
-[project.urls]
-Homepage = "https://github.com/metaist/linkrot"
-Documentation = "https://metaist.github.io/linkrot/"
-Repository = "https://github.com/metaist/linkrot.git"
-Changelog = "https://github.com/metaist/linkrot/blob/main/CHANGELOG.md"
+[tool.pdm.scripts]
+black = { shell = "black ." }
+ruff = { shell = "ruff ." }
+cspell = { shell = "cspell --gitignore '**/*.{py,txt,md,markdown}'" }
+
+mypy = { shell = """\
+  mypy \
+    --strict \
+    --install-types \
+    --non-interactive \
+    src test
+""" }
+
+test = { shell = """\
+  PYTHONPATH=src \
+  coverage run --branch --source=src -m \
+    pytest \
+      --doctest-modules \
+      --doctest-ignore-import-errors \
+      src test; \
+  coverage report -m
+""" }
+
+docs = { shell = """\
+  rm -rf docs; \
+  pdoc \
+    --html \
+    --output-dir docs \
+    --config sort_identifiers=False \
+    --config show_inherited_members=True \
+    --force src/$(basename $(pwd));
+  mv docs/**/* docs/
+""" }
+
+lint = { composite = ["black", "ruff", "cspell", "mypy"] }
+dev = { composite = ["lint", "test"] }
+all = { composite = ["lint", "test", "docs"] }

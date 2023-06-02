@@ -11,7 +11,7 @@ Sections order is: `Fixed`, `Changed`, `Added`, `Deprecated`, `Removed`, `Securi
 
 ---
 
-[unreleased]: https://github.com/metaist/linkrot/compare/prod...main
+[unreleased]: https://github.com/metaist/freshlinks/compare/prod...main
 
 ## [Unreleased]
 
