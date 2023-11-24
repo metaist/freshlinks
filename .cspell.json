@@ -2,7 +2,13 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "CPUS",
+    "freshlinks",
+    "KHTML",
+    "multiprocess",
     "mypy",
-    "setuptools"
+    "Netcraft",
+    "setuptools",
+    "userinfo"
   ]
 }
