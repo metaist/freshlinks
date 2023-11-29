@@ -26,6 +26,11 @@ See:
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# std
+from typing import List
+from typing import Tuple
+from typing import Union
+
 # pkg
 from freshlinks.canonicalize import canonical_ip
 from freshlinks.canonicalize import canonical_url
@@ -69,7 +74,7 @@ def test_canonicalize_ip() -> None:
 
 def test_canonicalize_url() -> None:
     """Canonicalize URLs."""
-    items = [
+    items: List[Tuple[Union[str, bytes], str]] = [
         ("http://google.com/", "http://google.com/"),
         ("http://google.com:80/a/b", "http://google.com/a/b"),
         ("http://google.com:80/a/b/c/", "http://google.com/a/b/c/"),
@@ -157,7 +162,10 @@ def test_canonicalize_url() -> None:
             "http://i.have.way.too.many.dots.com/",
         ),
         # WholeSecurity escapes parts of the scheme
-        ("http%3A%2F%2Fwackyurl.com:80/", "http://wackyurl.com/"),
+        (
+            "http%3A%2F%2Fwackyurl.com:80/",  # spell-checker: disable-line
+            "http://wackyurl.com/",
+        ),
         ("http://W!eird<>Ho$^.com/", "http://w!eird<>ho$^.com/"),
         # The path should have a leading '/' even if the hostname was terminated
         # by something other than a '/'.
@@ -165,11 +173,11 @@ def test_canonicalize_url() -> None:
     ]
     for test, want in items:
         have = canonical_url(test)
-        assert have == want, f"test input: {test}, actual: {have}, expected: {want}"
+        assert have == want, f"test input: {test!r}, actual: {have}, expected: {want!r}"
 
 
 def test_url_() -> None:
-    """Run Google's Canonicalization tests.
+    """Run Google's tests.
 
     See: https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
     """

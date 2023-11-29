@@ -31,9 +31,10 @@ See:
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# native
+# std
 from typing import List
 from typing import Union
+from typing import cast
 from urllib.parse import quote
 from urllib.parse import unquote
 from urllib.parse import unquote_to_bytes
@@ -42,9 +43,9 @@ import string
 
 # lib
 from attrbox import AttrDict
-from url_normalize.tools import deconstruct_url
+from url_normalize.tools import deconstruct_url  # type: ignore
 from url_normalize.tools import reconstruct_url
-from url_normalize.url_normalize import normalize_port
+from url_normalize.url_normalize import normalize_port  # type: ignore
 from url_normalize.url_normalize import normalize_query
 from url_normalize.url_normalize import normalize_userinfo
 from url_normalize.url_normalize import provide_url_scheme
@@ -195,6 +196,8 @@ def canonical_path(path: str) -> str:
         result = f"{result}/"
     # leading and trailing slashes added (if needed)
 
+    # SPECIAL CASE: Handle URLs tacked on.
+    result = result.replace("http:/", "http://").replace("https:/", "https://")
     return result
 
 
@@ -214,34 +217,40 @@ def canonical_url(url: Union[str, bytes]) -> str:
     # 6: Repeatedly percent-unescape the URL until it has no more percent-escapes.
     url = url.strip()  # no leading or trailing whitespace
 
+    has_end_q = False
     if isinstance(url, bytes):
         url = url.replace(b"\t", b"").replace(b"\r", b"").replace(b"\n", b"")  # Rule 4
         url = url.replace(b"#!", b"?_escaped_fragment_=")  # Different than Google
         if (pos := url.find(b"#")) >= 0:
             url = url[0:pos]  # Rule 5
+        has_end_q = url.endswith(b"?")
     else:
+        url = cast(str, url)
         url = url.replace("\t", "").replace("\r", "").replace("\n", "")  # Rule 4
         url = url.replace("#!", "?_escaped_fragment_=")  # Different than Google
         if (pos := url.find("#")) >= 0:
             url = url[0:pos]  # Rule 5
+        has_end_q = url.endswith("?")
 
     url = escape(url)  # in case, e.g., scheme has encoded characters
+    if url.startswith(":") and len(url) > 1:
+        url = f"localhost{url}"
     url = provide_url_scheme(url, DEFAULT_SCHEME)
 
     parts = AttrDict(deconstruct_url(url)._asdict())
     if not parts.host:
         return ""
 
-    parts.scheme = parts.scheme.lower()
+    parts.scheme = parts.scheme.lower() if parts.scheme else DEFAULT_SCHEME
     parts.userinfo = normalize_userinfo(parts.userinfo)
     parts.host = canonical_host(parts.host)
     parts.port = normalize_port(parts.port, parts.scheme)
-    parts.path = canonical_path(parts.path)
+    parts.path = canonical_path(cast(str, parts.path))
     parts.query = normalize_query(parts.query)
     parts.fragment = ""
 
-    result = reconstruct_url(parts)
-    if url.endswith("?") and not result.endswith("?"):
+    result = str(reconstruct_url(parts))
+    if has_end_q and not result.endswith("?"):
         result += "?"
 
     return result
