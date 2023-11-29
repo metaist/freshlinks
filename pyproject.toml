@@ -27,6 +27,7 @@ optional-dependencies = { dev = [
   "black",
   "coverage",
   "mypy",
+  "pdm",
   "pdoc3",
   "pyright",
   "pytest-cov",
