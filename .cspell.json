@@ -2,7 +2,11 @@
   "version": "0.2",
   "language": "en",
   "words": [
+    "attrbox",
+    "Canonicalization",
     "CPUS",
+    "dhms",
+    "docopt",
     "freshlinks",
     "KHTML",
     "leadingspace",
@@ -14,10 +18,7 @@
     "setuptools",
     "sublink",
     "ujson",
-    "wackyurl",
     "userinfo",
-    "attrbox",
-    "docopt",
-    "dhms"
+    "wackyurl"
   ]
 }

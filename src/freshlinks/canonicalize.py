@@ -1,13 +1,15 @@
 """Generate canonical URLs roughly using Google's Safe Browsing standard.
 
 Differences:
+
 - Fragments are removed, but `#!` is converted to `?_escaped_fragment_=`
 - Username and password are NOT removed from the host.
 
 See:
-- https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
-- https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py
-- https://github.com/niksite/url-normalize/blob/master/url_normalize/url_normalize.py
+
+- [URLs and Hashing: Canonicalization](https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization)
+- [`expression.py`](https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py)
+- [`url_normalize.py`](https://github.com/niksite/url-normalize/blob/master/url_normalize/url_normalize.py)
 """
 
 # This file is a rewrite of Google's Python 2.5 implementation.
@@ -77,10 +79,8 @@ def unquote2(string: Union[str, bytes]) -> Union[str, bytes]:
 
 
 def escape(string: Union[str, bytes]) -> str:
-    """Fully escape `string`, then re-escape once.
-
-    See: https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py#292
-    """
+    """Fully escape `string`, then re-escape once."""
+    # See: https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py#292
     unquoted = unquote2(string)
     while unquoted != string:
         string = unquoted
@@ -202,11 +202,9 @@ def canonical_path(path: str) -> str:
 
 
 def canonical_url(url: Union[str, bytes]) -> str:
-    """Return a canonical version of `url`.
-
-    See: https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
-    See: https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py
-    """
+    """Return a canonical version of `url`."""
+    # See: https://developers.google.com/safe-browsing/v4/urls-hashing#canonicalization
+    # See: https://chromium.googlesource.com/external/google-safe-browsing/+/06a8c4e799233da220ad7411e2bfacc74cbfbb37/python/expression.py
     # 4: Remove tab (0x09), CR (0x0d), and LF (0x0a) characters from the URL.
     #    Do not remove escape sequences for these characters (e.g. '%0a').
 
@@ -225,7 +223,6 @@ def canonical_url(url: Union[str, bytes]) -> str:
             url = url[0:pos]  # Rule 5
         has_end_q = url.endswith(b"?")
     else:
-        url = cast(str, url)
         url = url.replace("\t", "").replace("\r", "").replace("\n", "")  # Rule 4
         url = url.replace("#!", "?_escaped_fragment_=")  # Different than Google
         if (pos := url.find("#")) >= 0:
