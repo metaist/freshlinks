@@ -13,11 +13,14 @@ version = "0.1.0"
 
 dependencies = [
   # application dependencies are pinned
+  "attrbox==0.1.5",
   "beautifulsoup4==4.12.2",
-  "ezq==3.0.3",
+  "ezq==3.0.4",
+  "lxml==4.9.3",
   "multiprocess==0.70.14",
   "requests==2.30.0",
   "ujson>=5.7.0",
+  "url-normalize==1.4.3",
 ]
 optional-dependencies = { dev = [
   # dev dependencies are latest
@@ -25,8 +28,9 @@ optional-dependencies = { dev = [
   "coverage",
   "mypy",
   "pdoc3",
-  "pytest",
+  "pyright",
   "pytest-cov",
+  "pytest",
   "ruff",
 ] }
 readme = "README.md"
@@ -36,7 +40,7 @@ requires-python = ">=3.8"
 black = { shell = "black ." }
 ruff = { shell = "ruff ." }
 cspell = { shell = "cspell --gitignore '**/*.{py,txt,md,markdown}'" }
-
+pyright = { shell = "pyright src test" }
 mypy = { shell = """\
   mypy \
     --strict \
@@ -66,6 +70,6 @@ docs = { shell = """\
   mv docs/**/* docs/
 """ }
 
-lint = { composite = ["black", "ruff", "cspell", "mypy"] }
+lint = { composite = ["black", "ruff", "cspell", "pyright", "mypy"] }
 dev = { composite = ["lint", "test"] }
 all = { composite = ["lint", "test", "docs"] }

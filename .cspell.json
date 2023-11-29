@@ -5,10 +5,19 @@
     "CPUS",
     "freshlinks",
     "KHTML",
+    "leadingspace",
+    "Metaist",
     "multiprocess",
+    "myprotocol",
     "mypy",
     "Netcraft",
     "setuptools",
-    "userinfo"
+    "sublink",
+    "ujson",
+    "wackyurl",
+    "userinfo",
+    "attrbox",
+    "docopt",
+    "dhms"
   ]
 }
