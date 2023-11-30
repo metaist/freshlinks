@@ -16,6 +16,12 @@ _Basic link checker._
 
 There are lots of existing services out there that have lots of bells and whistles, but I just want to include small fast link checker as part of my build / lint process.
 
+## Quick Start
+
+```bash
+python -m freshlinks "https://example.com/"
+```
+
 ## License
 
 [MIT License](https://github.com/metaist/freshlinks/blob/main/LICENSE.md)

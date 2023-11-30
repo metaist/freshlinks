@@ -15,6 +15,7 @@
     "myprotocol",
     "mypy",
     "Netcraft",
+    "pdoc",
     "pypa",
     "pypi",
     "setuptools",

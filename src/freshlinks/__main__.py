@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Check to make sure your links are still fresh.
 
+```text
 Usage: freshlinks
     [--help | --version] [--debug]
     [--config PATH]
@@ -38,6 +39,10 @@ Scrape:
 Output:
   --show-ok                 show URLs that were successfully reached
   --show-err                show error messages
+
+Examples:
+$ python -m freshlinks http://example.com
+```
 """
 
 # std
