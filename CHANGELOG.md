@@ -18,3 +18,9 @@ Sections order is: `Fixed`, `Changed`, `Added`, `Deprecated`, `Removed`, `Securi
 These are changes that are on `main` that are not yet in `prod`.
 
 ---
+
+[1.0.0]: https://github.com/metaist/freshlinks/commits/1.0.0
+
+## [1.0.0] - 2023-12-01T02:02:02Z
+
+Initial release.

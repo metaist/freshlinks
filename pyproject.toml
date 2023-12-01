@@ -5,12 +5,25 @@ requires = ["setuptools>=40.8.0", "wheel"]
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[project]
-authors = [{ name = "Metaist LLC", email = "metaist@metaist.com" }]
-description = "Basic link checker."
-name = "freshlinks"
-version = "0.1.0"
+[tool.setuptools.package-data]
+freshlinks = ["py.typed"]
 
+[tool.setuptools.dynamic]
+version = { attr = "freshlinks.__version__" }
+
+[project.urls]
+Homepage = "https://github.com/metaist/freshlinks"
+Documentation = "https://metaist.github.io/freshlinks/"
+Repository = "https://github.com/metaist/freshlinks.git"
+Changelog = "https://github.com/metaist/freshlinks/blob/main/CHANGELOG.md"
+
+[project]
+name = "freshlinks"
+description = "Basic link checker."
+keywords = ["link", "checker"]
+
+dynamic = ["version"]
+requires-python = ">=3.8"
 dependencies = [
   # application dependencies are pinned
   "attrbox==0.1.5",
@@ -35,7 +48,26 @@ optional-dependencies = { dev = [
   "ruff",
 ] }
 readme = "README.md"
-requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Metaist LLC", email = "metaist@metaist.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Testing",
+  "Topic :: Internet :: WWW/HTTP",
+  "Typing :: Typed",
+]
 
 [tool.pdm.scripts]
 black = { shell = "black ." }
