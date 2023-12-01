@@ -75,9 +75,7 @@ from .cache import LinkEntry
 from .canonicalize import canonical_url
 from .scraper import ping_url
 from .scraper import scrape_links
-
-__version__ = "1.0.0"
-__pubdate__ = "unpublished"
+from . import __version__
 
 
 @dataclass
